@@ -6,9 +6,17 @@ index = {"load_audio": "00_core.ipynb",
          "play_audio": "00_core.ipynb",
          "plot_audio": "00_core.ipynb",
          "calc_spectrums": "00_core.ipynb",
-         "plot_mag_spectrum": "00_core.ipynb"}
+         "plot_mag_spectrum": "00_core.ipynb",
+         "gen_sinusoid": "01_signal.ipynb",
+         "plot": "01_signal.ipynb",
+         "is_power_of_two": "02_fft.ipynb",
+         "fft_analysis": "02_fft.ipynb",
+         "fft_synthesis": "02_fft.ipynb"}
 
-modules = ["core.py"]
+modules = ["core.py",
+           "signal.py",
+           "fft.py",
+           "stft.py"]
 
 doc_url = "https://jhartquist.github.io/rtma/"
 

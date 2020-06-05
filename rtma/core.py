@@ -19,7 +19,7 @@ def play_audio(x, sr):
     display(Audio(x, rate=sr, normalize=False))
 
 # Cell
-def plot_audio(x: np.array, sr: int, figsize=(14,2)):
+def plot_audio(x: np.array, sr: int = 44100, figsize=(14,2)):
     """
     Plot a signal in the time domain.
     """

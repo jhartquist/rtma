@@ -11,7 +11,7 @@ entries:
       url: /
     - output: web,pdf
       title: Title
-      url: /core
+      url: /stft
     output: web
     title: rtma
   output: web

@@ -404,7 +404,7 @@ description: "summary"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fft_analysis" class="doc_header"><code>fft_analysis</code><a href="https://github.com/jhartquist/rtma/tree/master/rtma/fft.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fft_analysis</code>(<strong><code>x</code></strong>, <strong><code>n_fft</code></strong>)</p>
+<h4 id="zero_phase_buffer" class="doc_header"><code>zero_phase_buffer</code><a href="https://github.com/jhartquist/rtma/tree/master/rtma/fft.py#L14" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>zero_phase_buffer</code>(<strong><code>x_or_buffer</code></strong>:<code>ndarray</code>, <strong><code>n_fft</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>n_window</code></strong>:<code>Optional</code>[<code>int</code>]=<em><code>None</code></em>, <strong><code>reverse</code></strong>:<code>bool</code>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -424,7 +424,66 @@ description: "summary"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="n">m</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">buffer</span> <span class="o">=</span> <span class="n">zero_phase_buffer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">xh</span> <span class="o">=</span> <span class="n">zero_phase_buffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">buffer</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">==</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xh</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">buffer</span> <span class="o">=</span> <span class="n">zero_phase_buffer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">xh</span> <span class="o">=</span> <span class="n">zero_phase_buffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">n_window</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">buffer</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">==</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xh</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="fft_analysis" class="doc_header"><code>fft_analysis</code><a href="https://github.com/jhartquist/rtma/tree/master/rtma/fft.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fft_analysis</code>(<strong><code>x</code></strong>, <strong><code>n_fft</code></strong>, <strong><code>thresh</code></strong>=<em><code>1e-14</code></em>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">gen_sinusoid</span><span class="p">(</span><span class="n">amp</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
+<span class="n">xm</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="n">m</span><span class="p">]</span>
 
 <span class="n">m_x</span><span class="p">,</span> <span class="n">p_x</span> <span class="o">=</span> <span class="n">fft_analysis</span><span class="p">(</span><span class="n">xm</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -499,7 +558,7 @@ description: "summary"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fft_synthesis" class="doc_header"><code>fft_synthesis</code><a href="https://github.com/jhartquist/rtma/tree/master/rtma/fft.py#L38" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fft_synthesis</code>(<strong><code>m_x</code></strong>, <strong><code>p_x</code></strong>, <strong><code>m</code></strong>)</p>
+<h4 id="fft_synthesis" class="doc_header"><code>fft_synthesis</code><a href="https://github.com/jhartquist/rtma/tree/master/rtma/fft.py#L74" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fft_synthesis</code>(<strong><code>m_x</code></strong>, <strong><code>p_x</code></strong>, <strong><code>m</code></strong>)</p>
 </blockquote>
 
 </div>

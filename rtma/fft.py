@@ -11,27 +11,46 @@ def is_power_of_two(n: int) -> bool:
     return n > 1 and (n & (n-1)) == 0
 
 # Cell
-def zero_phase_buffer(x: np.ndarray,
+def zero_phase_buffer(x_or_buffer: np.ndarray,
                       n_fft: Optional[int] = None,
                       n_window: Optional[int] = None,
-                      forward: bool = True):
-    x = np.array(x) # signal to be a list
-    n_signal = x.shape[0]
-    if forward:
+                      reverse: bool = False):
+    x_or_buffer = np.array(x_or_buffer) # signal to be a list
+    n_samples = x_or_buffer.shape[0]
+
+    if reverse:
+        buffer = x_or_buffer
+
+        if n_window is None:
+            n_window = n_samples
+
+        center_i = n_window // 2
+        x_left  = buffer[-center_i:]          # from the right side of buffer
+        x_right = buffer[:n_window-center_i]  # from the left side of buffer
+
+        x = np.concatenate([x_left, x_right])
+        assert x.shape[0] == n_window
+        return x
+
+    else:
+        x = x_or_buffer
+
         if n_fft:
-            assert n_fft >= n_signal, 'n_fft must be >= the number of samples'
+            assert n_fft >= n_samples, 'n_fft must be >= the number of samples'
             assert is_power_of_two(n_fft), 'n_fft must be a power of two'
             buffer = np.zeros(n_fft, dtype=x.dtype)
         else:
             buffer = np.zeros_like(x, dtype=x.dtype)
 
-        center_i = n_signal // 2
+        center_i = n_samples // 2
         x_left  = x[:center_i]  # always even length, does not include center sample
         x_right = x[center_i:] # odd if signal length is odd, otherwise even
 
         buffer[:x_right.size] = x_right  # placed on the left
         buffer[-x_left.size:] = x_left   # placed on the right, at the end
         return buffer
+
+
 
 # Cell
 def fft_analysis(x, n_fft, thresh = 1e-14):
@@ -61,12 +80,6 @@ def fft_synthesis(m_x, p_x, m):
 
     Y = m_x * np.exp(1j * p_x)
     fft_buffer = np.fft.irfft(Y)
-
-    m1 = m // 2
-    m2 = (m+1) // 2
-
-    y = np.zeros(m)
-    y[:m1] = fft_buffer[-m1:]
-    y[m1:] = fft_buffer[:m2]
+    y = zero_phase_buffer(fft_buffer, n_window=m, reverse=True)
 
     return y

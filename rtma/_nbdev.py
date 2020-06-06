@@ -10,6 +10,7 @@ index = {"load_audio": "00_core.ipynb",
          "gen_sinusoid": "01_signal.ipynb",
          "plot": "01_signal.ipynb",
          "is_power_of_two": "02_fft.ipynb",
+         "zero_phase_buffer": "02_fft.ipynb",
          "fft_analysis": "02_fft.ipynb",
          "fft_synthesis": "02_fft.ipynb"}
 

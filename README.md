@@ -1,8 +1,6 @@
-# Title
-> summary
-
-
 # RTMA | Real-time Music Analysis
+
+
 
 ## Install
 
@@ -34,7 +32,7 @@ plot_audio(x, sr)
 ```
 
 
-![png](docs/images/output_5_0.png)
+![png](docs/images/output_4_0.png)
 
 
 ```
@@ -43,5 +41,5 @@ plot_mag_spectrum(mx, sr, hop_length, max_bin=300)
 ```
 
 
-![png](docs/images/output_6_0.png)
+![png](docs/images/output_5_0.png)
 

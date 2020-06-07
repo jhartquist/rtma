@@ -50,8 +50,6 @@ def zero_phase_buffer(x_or_buffer: np.ndarray,
         buffer[-x_left.size:] = x_left   # placed on the right, at the end
         return buffer
 
-
-
 # Cell
 def fft_analysis(x, n_fft, thresh = 1e-14):
     assert x.size <= n_fft
@@ -62,13 +60,13 @@ def fft_analysis(x, n_fft, thresh = 1e-14):
     fft_buffer = zero_phase_buffer(x, n_fft=n_fft)
     X = np.fft.rfft(fft_buffer)[:pos_n_fft]
 
-    magnitude = abs(X)
+    m_x = abs(X)
 
     X.real[abs(X.real) < thresh] = 0.0
     X.imag[abs(X.imag) < thresh] = 0.0
-    phase = np.unwrap(np.angle(X))
+    p_x = np.unwrap(np.angle(X))
 
-    return magnitude, phase
+    return m_x, p_x
 
 # Cell
 def fft_synthesis(m_x, p_x, m):

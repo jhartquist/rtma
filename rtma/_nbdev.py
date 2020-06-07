@@ -7,12 +7,14 @@ index = {"load_audio": "00_core.ipynb",
          "plot_audio": "00_core.ipynb",
          "calc_spectrums": "00_core.ipynb",
          "plot_mag_spectrum": "00_core.ipynb",
+         "plot_mags": "00_core.ipynb",
          "gen_sinusoid": "01_signal.ipynb",
          "plot": "01_signal.ipynb",
          "is_power_of_two": "02_fft.ipynb",
          "zero_phase_buffer": "02_fft.ipynb",
          "fft_analysis": "02_fft.ipynb",
-         "fft_synthesis": "02_fft.ipynb"}
+         "fft_synthesis": "02_fft.ipynb",
+         "gen_frames": "03_stft.ipynb"}
 
 modules = ["core.py",
            "signal.py",

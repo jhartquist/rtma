@@ -1,6 +1,9 @@
 {
   "rtma": {
     "Overview": "/",
+    "Core": "/core",
+    "Signal": "/signal",
+    "FFT": "/fft",
     "Title": "/stft"
   }
 }

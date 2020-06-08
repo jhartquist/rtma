@@ -14,12 +14,21 @@ index = {"load_audio": "00_core.ipynb",
          "zero_phase_buffer": "02_fft.ipynb",
          "fft_analysis": "02_fft.ipynb",
          "fft_synthesis": "02_fft.ipynb",
-         "gen_frames": "03_stft.ipynb"}
+         "get_cola_window": "03_stft.ipynb",
+         "gen_frames": "03_stft.ipynb",
+         "synth_frames": "03_stft.ipynb",
+         "stft": "03_stft.ipynb",
+         "istft": "03_stft.ipynb",
+         "detect_peaks": "04_sine_model.ipynb",
+         "plot_peaks": "04_sine_model.ipynb",
+         "interpolate_peaks": "04_sine_model.ipynb",
+         "plot_ipeaks": "04_sine_model.ipynb"}
 
 modules = ["core.py",
            "signal.py",
            "fft.py",
-           "stft.py"]
+           "stft.py",
+           "sine_model.py"]
 
 doc_url = "https://jhartquist.github.io/rtma/"
 

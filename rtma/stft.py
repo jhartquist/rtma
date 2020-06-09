@@ -57,7 +57,7 @@ def synth_frames(frames, n_hop, n_samples: int = None):
 
     for i, frame in enumerate(frames):
         offset_i = i*n_hop
-        y[offset_i:offset_i+m] += frame\
+        y[offset_i:offset_i+n_window] += frame\
 
     n_overlap = n_window - n_hop
     y = y[n_overlap:]

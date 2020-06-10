@@ -37,6 +37,10 @@ def gen_frames(x, n_window, n_hop, window = None):
     n_overlap = n_window - n_hop
     x = np.pad(x, (n_overlap, 0), mode='constant')
     i = 0
+
+    if window is not None:
+        window = window / window.sum()
+
     while i < x.size:
         frame = x[i:i+n_window]
         if frame.size < n_window:
@@ -57,7 +61,7 @@ def synth_frames(frames, n_hop, n_samples: int = None):
 
     for i, frame in enumerate(frames):
         offset_i = i*n_hop
-        y[offset_i:offset_i+n_window] += frame\
+        y[offset_i:offset_i+n_window] += frame * n_hop
 
     n_overlap = n_window - n_hop
     y = y[n_overlap:]

@@ -22,7 +22,8 @@ index = {"load_audio": "00_core.ipynb",
          "detect_peaks": "04_sine_model.ipynb",
          "plot_peaks": "04_sine_model.ipynb",
          "interpolate_peaks": "04_sine_model.ipynb",
-         "plot_ipeaks": "04_sine_model.ipynb"}
+         "plot_ipeaks": "04_sine_model.ipynb",
+         "synth_window": "04_sine_model.ipynb"}
 
 modules = ["core.py",
            "signal.py",

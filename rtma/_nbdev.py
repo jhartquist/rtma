@@ -30,7 +30,9 @@ index = {"load_audio": "00_core.ipynb",
          "Frame": "04_sine_model.ipynb",
          "sine_model_analysis": "04_sine_model.ipynb",
          "sine_model_synthesis": "04_sine_model.ipynb",
-         "sine_tracking": "04_sine_model.ipynb"}
+         "sine_tracking": "04_sine_model.ipynb",
+         "clean_sine_tracks": "04_sine_model.ipynb",
+         "sine_model_a": "04_sine_model.ipynb"}
 
 modules = ["core.py",
            "signal.py",

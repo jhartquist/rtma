@@ -11,8 +11,14 @@ def load_audio(filename: str) -> (np.array, int):
     Load audio as mono.
     return: signal, sample_rate (Hz)
     """
-    # TODO: refactor this to not use librosa?
-    return librosa.load(filename, sr=None, mono=True, dtype=np.float32)
+    # TODO: handle mono/stereo
+    # TODO: resample?
+    sample_rate, x = wavfile.read(filename)
+    if x.dtype != np.float32:
+        # assuming int
+        x = np.float32(x) / np.iinfo(x.dtype).max
+    return x, sample_rate
+
 
 # Cell
 def play_audio(x, sr):

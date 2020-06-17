@@ -33,9 +33,14 @@ def get_cola_window(window_name: str, n_window: int, n_hop: int):
     return window
 
 # Cell
-def gen_frames(x, n_window, n_hop, window = None):
-    n_overlap = n_window - n_hop
-    x = np.pad(x, (n_overlap, 0), mode='constant')
+def gen_frames(x, n_window, n_hop, window = None, pad_center=False):
+    if pad_center:
+        n_pad = n_window // 2
+    else:
+        n_overlap = n_window - n_hop
+        n_pad = n_overlap
+
+    x = np.pad(x, (n_pad, 0), mode='constant')
     i = 0
 
     if window is not None:
@@ -51,7 +56,7 @@ def gen_frames(x, n_window, n_hop, window = None):
         i += n_hop
 
 # Cell
-def synth_frames(frames, n_hop, n_samples: int = None):
+def synth_frames(frames, n_hop, n_samples: int = None, pad_center=False):
     frames = list(frames)
     n_frames = len(frames) # TODO: make synth_frames a generator ?
     n_window = frames[0].size
@@ -64,19 +69,24 @@ def synth_frames(frames, n_hop, n_samples: int = None):
         y[offset_i:offset_i+n_window] += frame * n_hop
 
     n_overlap = n_window - n_hop
-    y = y[n_overlap:]
+    if pad_center:
+        n_pad = n_window // 2
+    else:
+        n_pad = n_overlap
+
+    y = y[n_pad:-n_pad]
     if n_samples is not None:
         y = y[:n_samples]
     return y
 
 # Cell
-def stft(x, n_fft, n_hop, window):
+def stft(x, n_fft, n_hop, window, decibels=True, pad_center=False):
     n_window = window.size
-    for x_i in gen_frames(x, n_window=n_window, n_hop=n_hop, window=window):
-        m_x, p_x = fft_analysis(x_i, n_fft)
+    for x_i in gen_frames(x, n_window=n_window, n_hop=n_hop, window=window, pad_center=pad_center):
+        m_x, p_x = fft_analysis(x_i, n_fft, decibels=decibels)
         yield m_x, p_x
 
 # Cell
-def istft(spectrum, n_hop, n_window, n_samples: int = None):
-    frames = (fft_synthesis(m_x, p_x, n_window) for m_x, p_x in spectrum)
-    return synth_frames(frames, n_hop, n_samples)
+def istft(spectrum, n_hop, n_window, n_samples: int = None, decibels: bool = True, pad_center=False):
+    frames = (fft_synthesis(m_x, p_x, n_window, decibels=decibels) for m_x, p_x in spectrum)
+    return synth_frames(frames, n_hop, n_samples, pad_center=pad_center)

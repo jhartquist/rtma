@@ -10,8 +10,11 @@ index = {"load_audio": "00_core.ipynb",
          "plot_mags": "00_core.ipynb",
          "gen_sinusoid": "01_signal.ipynb",
          "plot": "01_signal.ipynb",
+         "EPSILON": "02_fft.ipynb",
          "is_power_of_two": "02_fft.ipynb",
          "zero_phase_buffer": "02_fft.ipynb",
+         "amplitude_to_decibels": "02_fft.ipynb",
+         "decibels_to_amplitude": "02_fft.ipynb",
          "fft_analysis": "02_fft.ipynb",
          "fft_synthesis": "02_fft.ipynb",
          "get_cola_window": "03_stft.ipynb",
@@ -26,13 +29,15 @@ index = {"load_audio": "00_core.ipynb",
          "synth_window": "04_sine_model.ipynb",
          "Frame": "04_sine_model.ipynb",
          "sine_model_analysis": "04_sine_model.ipynb",
-         "sine_model_synthesis": "04_sine_model.ipynb"}
+         "sine_model_synthesis": "04_sine_model.ipynb",
+         "sine_tracking": "04_sine_model.ipynb"}
 
 modules = ["core.py",
            "signal.py",
            "fft.py",
            "stft.py",
-           "sine_model.py"]
+           "sine_model.py",
+           "objects.py"]
 
 doc_url = "https://jhartquist.github.io/rtma/"
 

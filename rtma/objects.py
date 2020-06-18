@@ -6,4 +6,6 @@ __all__ = []
 from .imports import *
 from .core import *
 from .signal import *
+from .fft import *
 from .stft import *
+from .sine_model import *

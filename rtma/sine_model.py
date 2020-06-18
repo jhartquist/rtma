@@ -190,7 +190,6 @@ def sine_model_analysis(x, sr, w,
         peak_i = detect_peaks(mx, t)
         ipeak_i, ipeak_m = interpolate_peaks(mx, peak_i)
         ipeak_p = np.interp(ipeak_i, np.arange(px.size), px)
-        ipeak_f = sr * ipeak_i / n_fft
 
         frame = Frame(ipeak_f, ipeak_m, ipeak_p)
         tframe = sine_tracking(frame, tfreq,

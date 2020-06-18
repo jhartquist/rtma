@@ -26,6 +26,7 @@ def gen_sinusoid(amp = 0.5,
     return x
 
 # Cell
-def plot(x):
-    plt.figure(figsize=(10, 2))
-    plt.plot(x)
+def plot(x, figsize=(10, 2)):
+    fig, ax = plt.subplots(1, figsize=figsize)
+    ax.plot(x)
+    return ax

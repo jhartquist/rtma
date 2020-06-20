@@ -5,8 +5,6 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"load_audio": "00_core.ipynb",
          "play_audio": "00_core.ipynb",
          "plot_audio": "00_core.ipynb",
-         "calc_spectrums": "00_core.ipynb",
-         "plot_mag_spectrum": "00_core.ipynb",
          "plot_mags": "00_core.ipynb",
          "gen_sinusoid": "01_signal.ipynb",
          "plot": "01_signal.ipynb",

@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import librosa
 import numpy as np
 import pandas as pd
 from scipy.io import wavfile

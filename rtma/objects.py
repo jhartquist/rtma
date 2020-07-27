@@ -31,8 +31,13 @@ class Signal:
     def play(self) -> None:
         play_audio(self.x, self.sample_rate)
 
-    def plot(self, *args, **kwargs) -> None:
-        return plot(self.x, *args, **kwargs)
+    def plot(self, *args, start=None, end=None, **kwargs) -> None:
+        x = self.x
+        if end is not None:
+            x = x[:end]
+        if start is not None:
+            x = x[start:]
+        return plot(x, *args, **kwargs)
 
     def __str__(self) -> str:
         return f'Signal("{self.filename}")'
@@ -136,11 +141,9 @@ class SpectralFrame(Frame):
             self._phases = np.unwrap(np.angle(dft))
         return self._phases
 
-    def plot_magnitudes(self):
-        return plot(self.magnitudes)
-
-    def plot_magnitudes_db(self):
-        return plot(self.magnitudes_db)
+    def plot_magnitudes(self, decibels: bool = True):
+        spec = self.magnitudes_db if decibels else self.magnitudes
+        return plot(spec)
 
     def plot_phases(self):
         return plot(self.phases)
@@ -157,11 +160,34 @@ class SpectralAnalysis(Analysis):
         self.window_name = window_name
         window = get_cola_window(window_name, self.frame_size, self.hop_size)
         self.window = window / window.sum()
+        self._magnitudes = None
 
     @property
     def spectral_frames(self):
         for frame in super().frames:
             yield SpectralFrame(frame, self.window, self.fft_size)
+
+    @property
+    def magnitudes(self):
+        # dB
+        if self._magnitudes is None:
+            self._magnitudes = np.stack([f.magnitudes_db for f in self.spectral_frames])
+        return self._magnitudes
+
+    def plot_magnitudes(self, max_plot_freq: float, figsize=(12, 6)):
+        n_bins = int(self.fft_size * max_plot_freq / self.sample_rate) + 1
+        n_frames = self.magnitudes.shape[0]
+
+        frame_times = np.arange(n_frames) / self.sample_rate * self.hop_size
+        bin_freqs = np.arange(n_bins) * self.sample_rate / self.fft_size
+
+        fig, ax = plt.subplots(1, figsize=figsize)
+        ax.set_xlabel('time (s)')
+        ax.set_ylabel('frequency (Hz)')
+        ax.set_xlim([0, frame_times[-1]])
+        ax.set_ylim([0, bin_freqs[-1]])
+        ax.pcolormesh(frame_times, bin_freqs, self.magnitudes.T[:n_bins])
+        return ax
 
 # Cell
 class Peak:
@@ -192,7 +218,7 @@ class PeakFrame(SpectralFrame):
         return self._peaks
 
     def plot_peaks(self):
-        ax = self.plot_magnitudes_db()
+        ax = self.plot_magnitudes()
         for p in self.peaks:
             idx = p.frequency / self.sample_rate * self.fft_size
             ax.axvline(idx, color='red')
@@ -236,6 +262,11 @@ class SineTrack:
 
     def __repr__(self):
         return f'SineTrack(freq={self.frequency}, start={self.start_index}, end={self.end_index}, len={len(self)})'
+
+    def plot(self, ax: plt.Axes, sample_rate: int, hop_size: int):
+        xs = np.arange(self.start_index, self.end_index) / sample_rate * hop_size
+        ys = [peak.frequency for peak in self.peaks]
+        ax.plot(xs, ys, c='k')
 
 # Cell
 class SineModelFrame:
@@ -301,6 +332,7 @@ class SineModelAnalysis(PeakAnalysis):
         self.freq_dev_offset = freq_dev_offset
         self.freq_dev_slope = freq_dev_slope
         self.all_tracks = None
+        self._tracks = None
 
     @property
     def sine_model_frames(self):
@@ -313,3 +345,15 @@ class SineModelAnalysis(PeakAnalysis):
                 if track.start_index == frame.index:
                     self.all_tracks.append(track)
             yield frame
+
+    @property
+    def tracks(self):
+        if self._tracks is None:
+            self.sine_model_frames
+            self._tracks = self.all_tracks.copy()
+        return self._tracks
+
+    def plot_sines(self, max_plot_freq: float, figsize=(12, 6)):
+        ax = self.plot_magnitudes(max_plot_freq=max_plot_freq, figsize=figsize)
+        for track in self.tracks:
+            track.plot(ax, self.sample_rate, self.hop_size)

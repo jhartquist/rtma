@@ -86,27 +86,19 @@ def sine_tracking(frame: Frame,
     tmp_mag = np.copy(frame.mags)
     tmp_phase = np.copy(frame.phases)
 
-    #print("tfreq", tfreq, ' tmp_freq', tmp_freq)
-
-
     # continue tracks
-
-
     if prev_i.size > 0:
         for i in mag_order:
             if prev_i.size == 0: break
 
             track = np.argmin(abs(tmp_freq[i] - tfreq[prev_i]))
             freq_dist = abs(tmp_freq[i] - tfreq[prev_i[track]])
-            #print(f'  i: {i}, track: {track}, dist: {freq_dist}')
             thresh = (freq_dev_offset + freq_dev_slope * tmp_freq[i])
             if freq_dist < thresh:
                 new_i[prev_i[track]] = i
                 prev_i = np.delete(prev_i, track)
 
-    #print('new_i', new_i)
     index_t = np.array(np.nonzero(new_i != -1), dtype=np.int)[0]  # empty for now
-    #print('index_t', index_t)
     if index_t.size > 0:
         index_p = new_i[index_t]
         tfreq_out[index_t] = tmp_freq[index_p]
@@ -117,17 +109,12 @@ def sine_tracking(frame: Frame,
         tmp_mag = np.delete(tmp_mag, index_p)
         tmp_phase = np.delete(tmp_phase, index_p)
 
-    #print(tfreq)
     empty_t = np.array(np.nonzero(tfreq == 0), dtype=np.int)[0] # indexes of empty incoming tracks
-    #print(empty_t)
     n_empty = empty_t.size
 
     peaks_left = np.argsort(-tmp_mag)
-    #print(f'peaks_left: {peaks_left.size}, n_empty: {n_empty}')
-
 
     # create new tracks
-
     if ((peaks_left.size > 0) & (n_empty >= peaks_left.size)):
         idx = empty_t[:peaks_left.size]
         tfreq_out[idx] = tmp_freq[peaks_left]

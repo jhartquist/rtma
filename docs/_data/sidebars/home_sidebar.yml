@@ -10,17 +10,8 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Core
-      url: /core
-    - output: web,pdf
-      title: Signal
-      url: /signal
-    - output: web,pdf
-      title: FFT
-      url: /fft
-    - output: web,pdf
       title: Title
-      url: /stft
+      url: /rms
     output: web
     title: rtma
   output: web

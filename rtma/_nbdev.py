@@ -45,7 +45,9 @@ modules = ["core.py",
            "fft.py",
            "stft.py",
            "sine_model.py",
-           "objects.py"]
+           "objects.py",
+           "harmonic_model.py",
+           "rms.py"]
 
 doc_url = "https://jhartquist.github.io/rtma/"
 
